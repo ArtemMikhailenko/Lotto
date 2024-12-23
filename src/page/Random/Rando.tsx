@@ -1,18 +1,29 @@
-// TicketSelector.js
 import React, { useState, useEffect } from "react";
 import styles from "./TicketSelector.module.css";
 
-const TicketSelector = () => {
-  const [ticketNumber, setTicketNumber] = useState("");
-  const [isInputFocused, setIsInputFocused] = useState(false);
-  const [particles, setParticles] = useState([]);
+// Оголошуємо тип для частинок
+type Particle = {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  speed: number;
+};
 
-  // Сюда будем записывать массив карточек, полученных с бэкенда
-  const [availableCards, setAvailableCards] = useState([]);
+// Тип для карточок з бекенду
+type Card = {
+  _id: string; // або number, якщо id числовий
+  id: number;
+};
+
+const TicketSelector: React.FC = () => {
+  const [ticketNumber, setTicketNumber] = useState<string>("");
+  const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const [availableCards, setAvailableCards] = useState<Card[]>([]); // Типізація масиву карток
 
   useEffect(() => {
-    // Создаем частицы для фонового эффекта
-    const newParticles = Array.from({ length: 50 }, (_, i) => ({
+    const newParticles: Particle[] = Array.from({ length: 50 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -22,23 +33,22 @@ const TicketSelector = () => {
     setParticles(newParticles);
   }, []);
 
-  // При первом рендере (или по необходимости), делаем GET-запрос и сохраняем список карточек
   useEffect(() => {
     fetch("https://ref-app-backend.onrender.com/cards")
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: Card[]) => {
         console.log("Полученные карточки:", data);
-        setAvailableCards(data);
+        setAvailableCards(data); // Очікуємо масив об'єктів типу Card
       })
       .catch((err) => console.error("Ошибка при получении карточек:", err));
   }, []);
 
   const generateRandomTicket = () => {
-    const randomNumber = Math.floor((Math.random() * 1000)+1);
+    const randomNumber = Math.floor(Math.random() * 1000 + 1);
     setTicketNumber(randomNumber.toString().padStart(4, "0"));
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "");
     if (value.length <= 6) {
       setTicketNumber(value);
@@ -47,7 +57,6 @@ const TicketSelector = () => {
 
   return (
     <div className={styles.container}>
-      {/* Фоновые частицы */}
       <div className={styles.particlesContainer}>
         {particles.map((particle) => (
           <div
@@ -65,7 +74,6 @@ const TicketSelector = () => {
       </div>
 
       <div className={styles.card}>
-        {/* Декоративные углы */}
         <div className={styles.cornerTL} />
         <div className={styles.cornerTR} />
         <div className={styles.cornerBL} />
@@ -77,13 +85,11 @@ const TicketSelector = () => {
           <div className={styles.statusBar}>
             <span className={styles.statusDot} />
             <span className={styles.statusText}>MAINNET CONNECTED</span>
-            {/* Декоративная линия */}
             <div className={styles.statusLine} />
           </div>
         </div>
 
         <div className={styles.ticketSection}>
-          {/* Декоративный круг */}
           <div className={styles.decorativeCircle}>
             <div className={styles.circleInner} />
           </div>
@@ -127,7 +133,6 @@ const TicketSelector = () => {
           </span>
         </button>
 
-        {/* Информационная панель */}
         <div className={styles.infoPanel}>
           <div className={styles.infoPanelItem}>
             <span className={styles.infoLabel}>POOL</span>
@@ -139,16 +144,14 @@ const TicketSelector = () => {
           </div>
         </div>
 
-        {/* Блок отображения полученных карточек */}
         <div className={styles.availableCards}>
           <h2 className={styles.availableCardsTitle}>AVAILABLE CARDS</h2>
 
           <div className={styles.cardsListWrapper}>
             <div className={styles.cardsGrid}>
-              {availableCards.map((cardData, index) => (
+              {availableCards.map((cardData) => (
                 <div key={cardData._id} className={styles.cardItem}>
                   <span className={styles.cardNumber}>#{cardData.id}</span>
-                  {/* <span className={styles.cardId}>{cardData.id}</span> */}
                 </div>
               ))}
             </div>

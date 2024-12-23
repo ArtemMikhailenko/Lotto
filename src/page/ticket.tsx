@@ -185,6 +185,7 @@ const TonLotteryCard: React.FC = () => {
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
+                //@ts-ignore
                 "--tx1": `${-50 + Math.random() * 100}px`,
                 "--ty1": `${-50 + Math.random() * 100}px`,
                 "--tx2": `${-50 + Math.random() * 100}px`,
