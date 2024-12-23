@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./TonLotteryCard.module.css";
 import EnhancedIcons from "./EnhancedIcons";
-
+// import { useParams } from "react-router-dom";
 
 const TonLotteryCard: React.FC = () => {
   const [nodes, setNodes] = useState<Array<{ x: number; y: number }>>([]);
@@ -17,7 +17,7 @@ const TonLotteryCard: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const lastMousePosRef = useRef<{ x: number; y: number } | null>(null);
-
+  // const { id } = useParams<{ id: string }>();
   useEffect(() => {
     // Create blockchain nodes
     const nodeCount = 12;
@@ -116,19 +116,20 @@ const TonLotteryCard: React.FC = () => {
     setRotateY(0);
     setGlowPosition({ x: 50, y: 50 });
   };
-  const handleScratchStart = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  // Вынесем общую логику в универсальные методы
+  const handlePointerDown = (x: number, y: number) => {
     setIsScratching(true);
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
     lastMousePosRef.current = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: x - rect.left,
+      y: y - rect.top,
     };
   };
 
-  const handleScratchMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handlePointerMove = (x: number, y: number) => {
     if (!isScratching || !contextRef.current || !lastMousePosRef.current)
       return;
 
@@ -137,8 +138,8 @@ const TonLotteryCard: React.FC = () => {
 
     const rect = canvas.getBoundingClientRect();
     const currentPos = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: x - rect.left,
+      y: y - rect.top,
     };
 
     const ctx = contextRef.current;
@@ -163,9 +164,10 @@ const TonLotteryCard: React.FC = () => {
     setRevealProgress((transparentPixels / (pixels.length / 4)) * 100);
   };
 
-  const handleScratchEnd = () => {
+  const handlePointerUp = () => {
     setIsScratching(false);
   };
+
   return (
     <div className={styles.container}>
       <div
@@ -327,10 +329,24 @@ const TonLotteryCard: React.FC = () => {
               <canvas
                 ref={canvasRef}
                 className={styles.scratchCanvas}
-                onMouseDown={handleScratchStart}
-                onMouseMove={handleScratchMove}
-                onMouseUp={handleScratchEnd}
-                onMouseLeave={handleScratchEnd}
+                /* Мышь */
+                onMouseDown={(e) => handlePointerDown(e.clientX, e.clientY)}
+                onMouseMove={(e) => handlePointerMove(e.clientX, e.clientY)}
+                onMouseUp={handlePointerUp}
+                onMouseLeave={handlePointerUp}
+                /* Тач-события */
+                onTouchStart={(e) => {
+                  // Берём первый палец
+                  const touch = e.touches[0];
+                  handlePointerDown(touch.clientX, touch.clientY);
+                }}
+                onTouchMove={(e) => {
+                  e.preventDefault(); // Чтобы страница не скроллилась
+                  const touch = e.touches[0];
+                  handlePointerMove(touch.clientX, touch.clientY);
+                }}
+                onTouchEnd={handlePointerUp}
+                onTouchCancel={handlePointerUp}
               />
               {revealProgress < 30 && (
                 <div className={styles.scratchText}>

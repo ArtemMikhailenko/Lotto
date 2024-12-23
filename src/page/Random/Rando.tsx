@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TicketSelector.module.css";
+import { Link } from "react-router-dom";
 
 // Оголошуємо тип для частинок
 type Particle = {
@@ -150,9 +151,13 @@ const TicketSelector: React.FC = () => {
           <div className={styles.cardsListWrapper}>
             <div className={styles.cardsGrid}>
               {availableCards.map((cardData) => (
-                <div key={cardData._id} className={styles.cardItem}>
-                  <span className={styles.cardNumber}>#{cardData.id}</span>
-                </div>
+                <Link
+                key={cardData._id}
+                to={`/lottery-ticket/${cardData._id}`}
+                className={styles.cardItem}
+              >
+                <span className={styles.cardNumber}>#{cardData.id}</span>
+              </Link>
               ))}
             </div>
           </div>
