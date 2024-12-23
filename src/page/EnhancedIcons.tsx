@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './EnhancedIcons.module.css';
 
 const EnhancedIcons = () => {
@@ -6,7 +6,7 @@ const EnhancedIcons = () => {
   const [activeIcon, setActiveIcon] = useState(null);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e:any) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
@@ -14,7 +14,7 @@ const EnhancedIcons = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const calculateTilt = (iconRect, mouseX, mouseY) => {
+  const calculateTilt = (iconRect:any, mouseX:any, mouseY:any) => {
     if (!iconRect) return { x: 0, y: 0 };
     const centerX = iconRect.left + iconRect.width / 2;
     const centerY = iconRect.top + iconRect.height / 2;
@@ -46,7 +46,7 @@ const EnhancedIcons = () => {
         <div
           key={index}
           className={`${styles.iconWrapper} ${iconClasses[index]}`}
-          onMouseEnter={() => setActiveIcon(index)}
+          onMouseEnter={() => setActiveIcon(index as any)}
           onMouseLeave={() => setActiveIcon(null)}
           style={{
             transform: activeIcon === index

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./TonLotteryCard.module.css";
 import EnhancedIcons from "./EnhancedIcons";
-import Particles from "./Particles";
+
 
 const TonLotteryCard: React.FC = () => {
   const [nodes, setNodes] = useState<Array<{ x: number; y: number }>>([]);
