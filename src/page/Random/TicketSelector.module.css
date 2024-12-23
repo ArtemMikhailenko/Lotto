@@ -1,0 +1,554 @@
+/* TicketSelector.module.css */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #0a0b0f;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .particlesContainer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  
+  .particle {
+    position: absolute;
+    background: #2ee5ff;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: floatParticle 3s infinite linear;
+  }
+  
+  .card {
+    background: linear-gradient(165deg, #12151f 0%, #1a1d2a 100%);
+    opacity: 0.75; /* Регулює прозорість всієї картки */
+    border-radius: 24px;
+    padding: 32px;
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    isolation: isolate;
+    backdrop-filter: blur(20px);
+}
+  
+  /* Декоративные углы */
+  .cornerTL, .cornerTR, .cornerBL, .cornerBR {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #2ee5ff;
+    opacity: 0.5;
+  }
+  
+  .cornerTL {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+  }
+  
+  .cornerTR {
+    top: 0;
+    right: 0;
+    border-left: none;
+    border-bottom: none;
+  }
+  
+  .cornerBL {
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: none;
+  }
+  
+  .cornerBR {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+  }
+  
+  .header {
+    position: relative;
+    margin-bottom: 40px;
+  }
+  
+  .glowCircle {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(46, 229, 255, 0.2) 0%, transparent 70%);
+    animation: glow 4s infinite ease-in-out;
+  }
+  
+  .title {
+    color: #2ee5ff;
+    font-size: 32px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+    position: relative;
+    text-shadow: 0 0 20px rgba(46, 229, 255, 0.5);
+  }
+  
+  .statusBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+  }
+  
+  .statusDot {
+    width: 8px;
+    height: 8px;
+    background: #2ee5ff;
+    border-radius: 50%;
+    position: relative;
+    animation: statusPulse 2s infinite;
+  }
+  
+  .statusText {
+    color: #2ee5ff;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  
+  .statusLine {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent,
+      rgba(46, 229, 255, 0.5),
+      transparent
+    );
+  }
+  
+  .ticketSection {
+    position: relative;
+    margin-bottom: 32px;
+  }
+  
+  .decorativeCircle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgba(46, 229, 255, 0.1);
+    border-radius: 50%;
+    animation: rotate 20s infinite linear;
+  }
+  
+  .circleInner {
+    position: absolute;
+    inset: 20px;
+    border: 1px dashed rgba(46, 229, 255, 0.2);
+    border-radius: 50%;
+    animation: rotate 15s infinite linear reverse;
+  }
+  
+  .inputContainer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 12px;
+  }
+  
+  .inputWrapper {
+    flex: 1;
+    background: rgba(13, 14, 19, 0.8);
+    border-radius: 12px;
+    padding: 4px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .inputWrapperFocused {
+    box-shadow: 0 0 20px rgba(46, 229, 255, 0.3);
+  }
+  
+  .input {
+    /* width: 100%; */
+    background: transparent;
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    color: #2ee5ff;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 4px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .inputOverlay {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(46, 229, 255, 0.1) 10px,
+      rgba(46, 229, 255, 0.1) 20px
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .inputWrapper:hover .inputOverlay {
+    opacity: 1;
+    animation: overlayMove 20s infinite linear;
+  }
+  
+  .randomButton {
+    background: rgba(46, 229, 255, 0.1);
+    border: none;
+    padding: 16px 24px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .buttonGlow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at var(--x, 50%) var(--y, 50%),
+      rgba(46, 229, 255, 0.4),
+      transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .randomButton:hover .buttonGlow {
+    opacity: 1;
+  }
+  
+  .buttonText {
+    position: relative;
+    color: #2ee5ff;
+    font-weight: 600;
+    z-index: 1;
+  }
+  
+  .checkButton {
+    width: 100%;
+    background: #2ee5ff;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .buttonRipple {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transform: translateX(-100%);
+    transition: transform 0.5s;
+  }
+  
+  .checkButton:hover .buttonRipple {
+    transform: translateX(100%);
+  }
+  
+  .buttonContent {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #0a0b0f;
+    font-size: 18px;
+    font-weight: 700;
+    z-index: 1;
+  }
+  
+  .buttonArrow {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+  }
+  
+  .infoPanel {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(46, 229, 255, 0.1);
+  }
+  
+  .infoPanelItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .infoLabel {
+    color: rgba(46, 229, 255, 0.6);
+    font-size: 12px;
+  }
+  
+  .infoValue {
+    color: #2ee5ff;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  /* 
+  Основа для «неонового» / «голографического»/ «стеклянного» блока.
+  Используем градиент, полупрозрачность и немного анимации
+*/
+
+.availableCards {
+    position: relative;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 14px;
+  
+    /* Фон: плавный градиент с переливом */
+    background: linear-gradient(135deg, #1b2533 0%, #2f3d50 100%);
+    
+    /* «Стеклянный»/«блюр»-эффект (при условии, что сзади есть фон) */
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(0, 234, 255, 0.2);
+  
+    /* Лёгкая внешняя тень */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  
+    /* Чтобы псевдоэлементы или анимации не вылезали */
+    overflow: hidden;
+  }
+  
+  /* 
+    Псевдоэлементы для анимированных подсветок
+    mix-blend-mode даст красивый «перелив» на градиентах
+  */
+  .availableCards::before,
+  .availableCards::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    pointer-events: none;
+  }
+  
+  /* «Неоновый» перелив сверху */
+  .availableCards::before {
+    background: radial-gradient(
+      circle at top right,
+      rgba(0, 234, 255, 0.08),
+      transparent 30%
+    );
+    animation: glowSpread 6s infinite alternate;
+    mix-blend-mode: screen;
+  }
+  
+  /* «Голографическая» рамка снизу */
+  .availableCards::after {
+    background: linear-gradient(
+      120deg,
+      rgba(255, 0, 255, 0.2) 0%,
+      rgba(0, 234, 255, 0.2) 100%
+    );
+    opacity: 0.08;
+    animation: holoFrame 8s infinite alternate;
+    mix-blend-mode: overlay;
+  }
+  
+  /* Заголовок */
+  .availableCardsTitle {
+    position: relative;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    color: #00eaff;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    z-index: 2;
+  }
+  
+  /* Обёртка для прокрутки */
+  .cardsListWrapper {
+    max-height: 300px;
+    overflow-y: auto;
+    position: relative;
+    z-index: 2;
+    padding-right: 8px;
+    
+    /* Для Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 234, 255, 0.3) transparent;
+  }
+  
+  /* Кастомная прокрутка (Chrome, Safari) */
+  .cardsListWrapper::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .cardsListWrapper::-webkit-scrollbar-thumb {
+    background: rgba(0, 234, 255, 0.4);
+    border-radius: 4px;
+  }
+  
+  .cardsListWrapper::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* Сетка карточек */
+  .cardsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    padding-bottom: 10px; /* Чтобы последний ряд не прижимался к низу */
+  }
+  
+  /* Карточка */
+  .cardItem {
+    cursor: pointer;
+    transform-style: preserve-3d;
+    background: rgba(13, 17, 23, 0.85);
+    border-radius: 8px;
+    padding: 10px;
+    color: #cccccc;
+    text-align: center;
+    box-shadow:
+      inset 0 0 15px rgba(0, 234, 255, 0.02),
+      0 2px 5px rgba(0, 0, 0, 0.2);
+    transition:
+      background 0.3s,
+      transform 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+      box-shadow 0.3s;
+  }
+  
+  /* Ховер: легкий наклон, подъём и усиление тени */
+  .cardItem:hover {
+    background: rgba(24, 34, 51, 0.85);
+    transform: translateY(-4px) rotateY(6deg);
+    box-shadow:
+      inset 0 0 15px rgba(0, 234, 255, 0.08),
+      0 10px 20px rgba(0, 234, 255, 0.15);
+  }
+  
+  /* Порядковый номер */
+  .cardNumber {
+    font-weight: 600;
+    margin-right: 6px;
+    color: #00eaff;
+  }
+  
+  /* ID карточки */
+  .cardId {
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+  }
+  
+  /* Анимации для «переливов» */
+  @keyframes glowSpread {
+    0% {
+      transform: scale(1);
+      opacity: 0.05;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0.1;
+    }
+  }
+  
+  @keyframes holoFrame {
+    0% {
+      opacity: 0.08;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0.15;
+      transform: translateY(-10px);
+    }
+  }
+  
+  @keyframes floatParticle {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(var(--moveX, 100px), var(--moveY, 100px));
+    }
+  }
+  
+  @keyframes glow {
+    0%, 100% {
+      opacity: 0.2;
+      transform: translateX(-50%) scale(1);
+    }
+    50% {
+      opacity: 0.4;
+      transform: translateX(-50%) scale(1.2);
+    }
+  }
+  
+  @keyframes statusPulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 10px rgba(46, 229, 255, 0.5);
+    }
+    50% {
+      transform: scale(1.2);
+      box-shadow: 0 0 20px rgba(46, 229, 255, 0.8);
+    }
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  
+  @keyframes overlayMove {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 40px 40px;
+    }
+  }
+  
+  /* Добавляем медиа-запрос для тачскринов */
+  @media (hover: hover) {
+    .randomButton:hover,
+    .checkButton:hover {
+      transform: translateY(-2px);
+    }
+  }
