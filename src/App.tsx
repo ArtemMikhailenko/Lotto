@@ -6,14 +6,14 @@ import './App.css';
 function App() {
   return (
     <Router>
-      <nav style={{ textAlign: 'center', margin: '20px' }}>
+      {/* <nav style={{ textAlign: 'center', margin: '20px' }}>
         <Link 
           to="/" 
           style={{ marginRight: '20px', color: '#00eaff', textDecoration: 'none' }}
         >
           Ticket Selector
         </Link>
-      </nav>
+      </nav> */}
 
       <Routes>
         <Route path="/" element={<TicketSelector />} />
