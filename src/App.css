@@ -1,16 +1,18 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  max-height: 100vh;
   text-align: center;
+  overflow-x: hidden;  /* Убираем горизонтальный скролл */
+  -webkit-overflow-scrolling: touch;  /* Плавный скролл на iOS */
+  touch-action: manipulation;  /* Убираем лишние события тачскрина */
 }
 
 .logo {
-  height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
@@ -27,16 +29,74 @@
   }
 }
 
+/* Убираем анимацию для пользователей с ограничениями */
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
-.card {
-  padding: 2em;
+/* Мобильная адаптивность */
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+
+  .logo {
+    padding: 1em;
+    width: 80px;
+    height: auto;
+  }
+
+  h1, h2, h3 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
 }
 
-.read-the-docs {
-  color: #888;
+/* Адаптация под совсем маленькие устройства */
+@media (max-width: 480px) {
+  #root {
+    padding: 0.5rem;
+  }
+
+  .logo {
+    width: 60px;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Убираем сдвиги и рывки на мобильных устройствах */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;  /* Убираем подсветку при нажатии */
+}
+
+/* Убираем двойное масштабирование */
+input, button, textarea, select {
+  font-size: 16px;
+}
+
+/* Убираем задержку при клике на мобильных */
+a, button {
+  touch-action: manipulation;
 }
