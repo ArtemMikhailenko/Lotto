@@ -1,14 +1,14 @@
 #root {
   margin: 0 auto;
-  max-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   text-align: center;
-  overflow-x: hidden;  /* Убираем горизонтальный скролл */
-  -webkit-overflow-scrolling: touch;  /* Плавный скролл на iOS */
-  touch-action: manipulation;  /* Убираем лишние события тачскрина */
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
 }
-
 .logo {
-  padding: 1.5em;
+  /* padding: 1.5em; */
   will-change: filter;
   transition: filter 300ms;
 }
@@ -79,10 +79,12 @@
 
 /* Убираем сдвиги и рывки на мобильных устройствах */
 html, body {
-  overflow-x: hidden;
-  max-width: 100%;
-  -webkit-overflow-scrolling: touch;
-  touch-action: manipulation;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
 }
 
 body {
@@ -99,4 +101,12 @@ input, button, textarea, select {
 /* Убираем задержку при клике на мобильных */
 a, button {
   touch-action: manipulation;
+}
+
+/* Prevent touch highlighting */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
