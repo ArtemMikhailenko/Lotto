@@ -17,7 +17,7 @@ const TonLotteryCard: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const lastMousePosRef = useRef<{ x: number; y: number } | null>(null);
-  // const { id } = useParams<{ id: string }>();
+
   useEffect(() => {
     // Create blockchain nodes
     const nodeCount = 12;
@@ -34,7 +34,6 @@ const TonLotteryCard: React.FC = () => {
     // Create connections with improved randomization
     const newConnections = [];
     for (let i = 0; i < nodeCount; i++) {
-      // Ensure each node has at least one connection
       const j = (i + 1) % nodeCount;
       const dx = newNodes[j].x - newNodes[i].x;
       const dy = newNodes[j].y - newNodes[i].y;
@@ -45,7 +44,6 @@ const TonLotteryCard: React.FC = () => {
         distance: Math.sqrt(dx * dx + dy * dy),
       });
 
-      // Add random additional connections
       for (let j = i + 2; j < nodeCount; j++) {
         if (Math.random() > 0.7) {
           const dx = newNodes[j].x - newNodes[i].x;
@@ -67,15 +65,11 @@ const TonLotteryCard: React.FC = () => {
     if (!ctx) return;
 
     contextRef.current = ctx;
-
-    // Настраиваем размеры canvas равными размеру визуализатора
     canvas.width = 200;
     canvas.height = 200;
 
-    // Рисуем скретч-слой
     ctx.fillStyle = "rgba(13, 17, 23, 0.95)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // Рисуем сумму выигрыша
     ctx.font = "bold 48px Arial";
     ctx.fillStyle = "#00EAFF";
     ctx.textAlign = "center";
@@ -84,10 +78,22 @@ const TonLotteryCard: React.FC = () => {
     ctx.font = "bold 24px Arial";
     ctx.fillText("TON", canvas.width / 2, canvas.height / 2 + 20);
 
-    // Накладываем слой для стирания
     ctx.fillStyle = "#0D1117";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }, []);
+
+    // Add event listeners for scroll prevention
+    const preventScroll = (e: TouchEvent) => {
+      if (isScratching) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+
+    return () => {
+      document.removeEventListener('touchmove', preventScroll);
+    };
+  }, [isScratching]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -96,13 +102,11 @@ const TonLotteryCard: React.FC = () => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Enhanced rotation calculation
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const rotX = ((y - centerY) / centerY) * -15; // Reduced rotation angle
+    const rotX = ((y - centerY) / centerY) * -15;
     const rotY = ((x - centerX) / centerX) * 15;
 
-    // Enhanced glow position
     const glowX = (x / rect.width) * 100;
     const glowY = (y / rect.height) * 100;
     setRotateX(rotX);
@@ -111,12 +115,11 @@ const TonLotteryCard: React.FC = () => {
   };
 
   const handleMouseLeave = () => {
-    // Smooth reset animation
     setRotateX(0);
     setRotateY(0);
     setGlowPosition({ x: 50, y: 50 });
   };
-  // Вынесем общую логику в универсальные методы
+
   const handlePointerDown = (x: number, y: number) => {
     setIsScratching(true);
     const canvas = canvasRef.current;
@@ -130,8 +133,7 @@ const TonLotteryCard: React.FC = () => {
   };
 
   const handlePointerMove = (x: number, y: number) => {
-    if (!isScratching || !contextRef.current || !lastMousePosRef.current)
-      return;
+    if (!isScratching || !contextRef.current || !lastMousePosRef.current) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -154,7 +156,6 @@ const TonLotteryCard: React.FC = () => {
 
     lastMousePosRef.current = currentPos;
 
-    // Подсчет прогресса стирания
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const pixels = imageData.data;
     let transparentPixels = 0;
