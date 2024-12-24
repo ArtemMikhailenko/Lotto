@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TonLotteryCard from './page/ticket';
 import TicketSelector from './page/Random/Rando';
 import './App.css';
